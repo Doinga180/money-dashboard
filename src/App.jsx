@@ -13,7 +13,7 @@ const EXPENSE_CATS = [
   { id: "food",          label: "Food / Groceries", icon: "🛒", color: "#20C997" },
   { id: "transport",     label: "Transportation",   icon: "🚗", color: "#74C0FC" },
   { id: "insurance",     label: "Insurance",        icon: "🛡️", color: "#DA77F2" },
-  { id: "subscriptions", label: "Subscriptions",    icon: "📱", color: "#FF6B6B" },
+  { id: "subscriptions", label: "Yearly / Other",   icon: "📅", color: "#FF6B6B" },
   { id: "other",         label: "Other Bills",      icon: "📋", color: "#94A3B8" },
 ];
 
@@ -38,7 +38,7 @@ const INIT = {
   payments: [],
 };
 
-const fmt = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Math.abs(n || 0));
+const fmt = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Math.abs(n || 0));
 const fmtFull = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(n || 0);
 
 function load() {
@@ -362,7 +362,7 @@ function IncomeTab({ state, setState }) {
               {MONTHS.map((m,i) => <option key={i} value={i}>{m} {year}</option>)}
             </select>
             <Label>AMOUNT ($)</Label>
-            <input autoFocus type="number" placeholder="0" value={amount} onChange={e => setAmount(e.target.value)} style={iStyle({ fontSize: 22, fontWeight: 700 })} />
+            <input autoFocus type="number" placeholder="0.00" step="0.01" value={amount} onChange={e => setAmount(e.target.value)} style={iStyle({ fontSize: 22, fontWeight: 700 })} />
             <Label>NOTE (optional)</Label>
             <input type="text" placeholder="e.g. Paycheck..." value={note} onChange={e => setNote(e.target.value)} style={iStyle()} />
             <SaveBtn color={cat.color} label="Save - Add to Checking" onClick={() => {
@@ -445,7 +445,7 @@ function ExpensesTab({ state, setState }) {
               {MONTHS.map((m,i) => <option key={i} value={i}>{m} {year}</option>)}
             </select>
             <Label>AMOUNT ($)</Label>
-            <input autoFocus type="number" placeholder="0" value={amount} onChange={e => setAmount(e.target.value)} style={iStyle({ fontSize: 22, fontWeight: 700 })} />
+            <input autoFocus type="number" placeholder="0.00" step="0.01" value={amount} onChange={e => setAmount(e.target.value)} style={iStyle({ fontSize: 22, fontWeight: 700 })} />
             <Label>NOTE (optional)</Label>
             <input type="text" placeholder="e.g. Xfinity..." value={note} onChange={e => setNote(e.target.value)} style={iStyle()} />
             {isRent ? (
@@ -577,7 +577,7 @@ function RecurringTab({ state, setState }) {
           <Label>BILL NAME</Label>
           <input autoFocus type="text" placeholder="e.g. Netflix, Xfinity..." value={fName} onChange={e => setFName(e.target.value)} style={iStyle()} />
           <Label>MONTHLY AMOUNT ($)</Label>
-          <input type="number" placeholder="0.00" value={fAmount} onChange={e => setFAmount(e.target.value)} style={iStyle({ fontSize: 20, fontWeight: 700 })} />
+          <input type="number" placeholder="0.00" step="0.01" value={fAmount} onChange={e => setFAmount(e.target.value)} style={iStyle({ fontSize: 20, fontWeight: 700 })} />
           <Label>CATEGORY</Label>
           <select value={fCat} onChange={e => setFCat(e.target.value)} style={iStyle()}>
             {EXPENSE_CATS.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
